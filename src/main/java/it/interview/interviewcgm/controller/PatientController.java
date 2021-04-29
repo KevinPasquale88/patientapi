@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import it.interview.interviewcgm.entity.Exam;
 import it.interview.interviewcgm.entity.ExamInfo;
 import it.interview.interviewcgm.entity.Patient;
+import it.interview.interviewcgm.entity.ResultSubmit;
 import it.interview.interviewcgm.services.ServiceExams;
 import it.interview.interviewcgm.services.ServicePatient;
 import lombok.extern.slf4j.Slf4j;
@@ -47,24 +49,30 @@ public class PatientController {
 		return response;
 	}
 
-	@GetMapping("/getExam")
-	@ResponseBody
-	public Exam getExam(@RequestParam String idexam) {
-		log.info("GET method getExam with params - idexam {}", idexam);
-		Exam response = serviceExams.getExam(idexam);
-		log.info("GET method getExam with response {}", response);
-		return response;
-	}
-
 	@PostMapping("/saveExam")
-	public int saveExam(@RequestBody ExamInfo exam) {
+	public ResultSubmit saveExam(@RequestBody ExamInfo exam) {
 		log.info("POST method saveExam with body - exam {}", exam);
-		return serviceExams.saveExam(exam);
+		if(serviceExams.saveExam(exam)) {
+			return new ResultSubmit("OK");
+		}
+		return new ResultSubmit("KO");
 	}
 
 	@PostMapping("/updateExam")
-	public int updateExam(@RequestParam String idexam, @RequestBody ExamInfo exam) {
+	public ResultSubmit updateExam(@RequestParam String idexam, @RequestBody ExamInfo exam) {
 		log.info("POST method updateExam with body - exam {}", exam);
-		return serviceExams.updateExam(exam, idexam);
+		if(serviceExams.updateExam(exam, idexam)) {
+			return new ResultSubmit("OK");
+		}
+		return new ResultSubmit("KO");
+	}
+	
+	@DeleteMapping("/deleteExam")
+	public ResultSubmit deleteExam(@RequestParam String idexam) {
+		log.info("DELETE method deleteExam with idexam {}", idexam);
+		if(serviceExams.deleteExam(idexam)) {
+			return new ResultSubmit("OK");
+		}
+		return new ResultSubmit("KO");
 	}
 }
