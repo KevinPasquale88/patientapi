@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.ApiOperation;
 import it.interview.interviewcgm.entity.Exam;
 import it.interview.interviewcgm.entity.ExamInfo;
 import it.interview.interviewcgm.entity.Patient;
@@ -31,6 +32,7 @@ public class PatientController {
 	@Autowired
 	ServiceExams serviceExams;
 
+	@ApiOperation(httpMethod = "GET", value = "servizio che restituisce la lista dei pazienti nel sistema")
 	@GetMapping("/getPatients")
 	@ResponseBody
 	public List<Patient> getPatients(@RequestParam String name, @RequestParam String surname) {
@@ -40,6 +42,7 @@ public class PatientController {
 		return response;
 	}
 
+	@ApiOperation(httpMethod = "GET", value = "servizio che restituisce la lista degli esami per paziente")
 	@GetMapping("/getExams")
 	@ResponseBody
 	public List<Exam> getExams(@RequestParam String idpatient) {
@@ -49,6 +52,7 @@ public class PatientController {
 		return response;
 	}
 
+	@ApiOperation(httpMethod = "POST", value = "servizio che salva un nuovo esame per un dato paziente")
 	@PostMapping("/saveExam")
 	public ResultSubmit saveExam(@RequestBody ExamInfo exam) {
 		log.info("POST method saveExam with body - exam {}", exam);
@@ -58,6 +62,7 @@ public class PatientController {
 		return new ResultSubmit("KO");
 	}
 
+	@ApiOperation(httpMethod = "POST", value = "servizio che aggiorna un esame esistente di un dato paziente")
 	@PostMapping("/updateExam")
 	public ResultSubmit updateExam(@RequestParam String idexam, @RequestBody ExamInfo exam) {
 		log.info("POST method updateExam with body - exam {}", exam);
@@ -67,6 +72,7 @@ public class PatientController {
 		return new ResultSubmit("KO");
 	}
 	
+	@ApiOperation(httpMethod = "DELETE", value = "servizio che cancella un esame di un dato paziente")
 	@DeleteMapping("/deleteExam")
 	public ResultSubmit deleteExam(@RequestParam String idexam) {
 		log.info("DELETE method deleteExam with idexam {}", idexam);

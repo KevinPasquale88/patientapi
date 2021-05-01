@@ -9,5 +9,4 @@ class InterviewCgmApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }
